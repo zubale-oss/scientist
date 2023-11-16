@@ -60,11 +60,14 @@ defmodule Scientist.Observation do
 
   The observations will be compared using the experiment's configured
   compare function.
+
+  The cleaned values will be used for comparison. If the experiment does not
+  have a clean function, the raw values will be used instead.
   """
   def equivalent?(observation, other, compare \\ &Kernel.==/2) do
     case {observation.exception, other.exception} do
       {nil, nil} ->
-        compare.(observation.value, other.value)
+        compare.(observation.cleaned_value, other.cleaned_value)
 
       {nil, _} ->
         false
